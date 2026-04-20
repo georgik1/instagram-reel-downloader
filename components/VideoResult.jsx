@@ -4,19 +4,17 @@ import { useState } from 'react';
 import VideoCard from './VideoCard';
 
 export default function VideoResult({ data }) {
-  const { thumbnail, videos, source } = data;
+  const { thumbnail, videos, source, videoUrl, audioUrl } = data;
   const [merging, setMerging] = useState(false);
 
-  const videoTrack = videos.find((v) => v.type === 'video/mp4');
-  const audioTrack = videos.find((v) => v.type === 'audio/mp4');
-  const hasSeparateTracks = !!(videoTrack && audioTrack);
+  const hasSeparateTracks = !!(videoUrl && audioUrl);
 
   const handleMergedDownload = async () => {
     try {
       setMerging(true);
       const mergeUrl =
-        `/api/merge?videoUrl=${encodeURIComponent(videoTrack.url)}` +
-        `&audioUrl=${encodeURIComponent(audioTrack.url)}`;
+        `/api/merge?videoUrl=${encodeURIComponent(videoUrl)}` +
+        `&audioUrl=${encodeURIComponent(audioUrl)}`;
       const response = await fetch(mergeUrl);
       if (!response.ok) {
         const err = await response.json().catch(() => ({ error: `Server error ${response.status}` }));

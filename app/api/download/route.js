@@ -48,6 +48,7 @@ export async function POST(request) {
         thumbnail: videoData.thumbnail,
         videos: videoData.videos,
         videoUrl: videoData.videoUrl,
+        audioUrl: videoData.audioUrl || null,
       };
       cache.set(cacheKey, dataToCache);
 
