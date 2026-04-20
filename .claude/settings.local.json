@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python3 -c \"import sys,json; data=sys.stdin.read\\(\\); val=json.loads\\('{'+data+'}'\\)['video_dash_manifest']; print\\(val[:2000]\\)\")",
+      "Bash(node -e \"const d=require\\('fs'\\).readFileSync\\('/dev/stdin','utf8'\\).trim\\(\\); const val=d.slice\\(22,d.length-1\\).replace\\(/\\\\\\\\\\\\\\\\u003C/g,'<'\\).replace\\(/\\\\\\\\\\\\\\\\u003E/g,'>'\\).replace\\(/\\\\\\\\\\\\\\\\n/g,'\\\\n'\\); console.log\\(val.slice\\(0,2000\\)\\)\")",
+      "Bash(grep -o 'BaseURL\\\\\\\\\\\\\\\\u003E[^\\\\\\\\]*\\\\\\\\\\\\\\\\u003C' \"c:\\\\Users\\\\GK\\\\Desktop\\\\dumbahh projects\\\\instagram-reel-downloader\\\\logs\\\\debug-DTtDFBXEuBU.html\")",
+      "Bash(grep -o 'video_dash_manifest.\\\\{0,500\\\\}' \"c:\\\\Users\\\\GK\\\\Desktop\\\\dumbahh projects\\\\instagram-reel-downloader\\\\logs\\\\debug-DTtDFBXEuBU.html\")",
+      "Bash(grep -o 'video_dash_manifest.\\\\{0,3000\\\\}' \"c:\\\\Users\\\\GK\\\\Desktop\\\\dumbahh projects\\\\instagram-reel-downloader\\\\logs\\\\debug-DTtDFBXEuBU.html\")",
+      "Bash(grep -o 'video_dash_manifest.\\\\{3000,8000\\\\}' \"c:\\\\Users\\\\GK\\\\Desktop\\\\dumbahh projects\\\\instagram-reel-downloader\\\\logs\\\\debug-DTtDFBXEuBU.html\")",
+      "Bash(grep -o 'codecs=\\\\\\\\u0022[^\\\\\\\\]*\\\\\\\\u0022' \"c:\\\\Users\\\\GK\\\\Desktop\\\\dumbahh projects\\\\instagram-reel-downloader\\\\logs\\\\debug-DTtDFBXEuBU.html\")",
+      "Bash(grep -o 'contentType=\\\\\\\\u0022[^\\\\\\\\]*\\\\\\\\u0022' \"c:\\\\Users\\\\GK\\\\Desktop\\\\dumbahh projects\\\\instagram-reel-downloader\\\\logs\\\\debug-DTtDFBXEuBU.html\")",
+      "Bash(grep -o 'codecs=.......................................\\\\\\\\.' \"c:\\\\Users\\\\GK\\\\Desktop\\\\dumbahh projects\\\\instagram-reel-downloader\\\\logs\\\\debug-DTtDFBXEuBU.html\")"
+    ]
+  }
+}

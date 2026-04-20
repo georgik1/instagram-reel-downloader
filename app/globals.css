@@ -1,0 +1,196 @@
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    @apply border-dark-border;
+  }
+  
+  body {
+    @apply bg-dark-bg text-gray-100 font-body;
+    background-image: 
+      linear-gradient(rgba(0, 245, 255, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0, 245, 255, 0.03) 1px, transparent 1px);
+    background-size: 50px 50px;
+    background-position: -1px -1px;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display;
+  }
+}
+
+@layer components {
+  .glass-card {
+    @apply bg-dark-card/50 backdrop-blur-xl border border-dark-border rounded-2xl;
+    box-shadow: 
+      0 8px 32px 0 rgba(0, 0, 0, 0.37),
+      inset 0 1px 1px 0 rgba(255, 255, 255, 0.05);
+  }
+
+  .neon-border {
+    position: relative;
+  }
+
+  .neon-border::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(135deg, #00F5FF, #FF006E);
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+  }
+
+  .neon-border:hover::before {
+    opacity: 1;
+  }
+
+  .btn-primary {
+    @apply px-8 py-4 rounded-xl font-display font-semibold text-lg;
+    @apply bg-gradient-to-r from-neon-cyan to-neon-purple;
+    @apply text-dark-bg transition-all duration-300;
+    @apply hover:shadow-lg hover:shadow-neon-cyan/50 hover:scale-105;
+    @apply disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100;
+    @apply active:scale-95;
+  }
+
+  .btn-secondary {
+    @apply px-6 py-3 rounded-lg font-display font-medium;
+    @apply bg-dark-card border border-neon-cyan/30;
+    @apply text-neon-cyan transition-all duration-300;
+    @apply hover:bg-neon-cyan/10 hover:border-neon-cyan;
+    @apply active:scale-95;
+  }
+
+  .input-field {
+    @apply w-full px-6 py-4 rounded-xl;
+    @apply bg-dark-card/80 border border-dark-border;
+    @apply text-gray-100 placeholder-gray-500;
+    @apply focus:outline-none focus:border-neon-cyan focus:ring-2 focus:ring-neon-cyan/20;
+    @apply transition-all duration-300;
+    @apply font-body;
+  }
+
+  .glow-text {
+    text-shadow: 
+      0 0 10px currentColor,
+      0 0 20px currentColor,
+      0 0 30px currentColor;
+  }
+
+  .scan-line {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .scan-line::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #00F5FF, transparent);
+    animation: scan 3s linear infinite;
+  }
+
+  @keyframes scan {
+    to {
+      left: 100%;
+    }
+  }
+}
+
+@layer utilities {
+  .text-gradient {
+    @apply bg-gradient-to-r from-neon-cyan via-neon-purple to-neon-pink;
+    @apply bg-clip-text text-transparent;
+  }
+
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+
+  .grid-bg {
+    background-image: 
+      linear-gradient(rgba(0, 245, 255, 0.1) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0, 245, 255, 0.1) 1px, transparent 1px);
+    background-size: 30px 30px;
+  }
+}
+
+/* Loading spinner */
+.spinner {
+  width: 48px;
+  height: 48px;
+  border: 4px solid rgba(0, 245, 255, 0.1);
+  border-top-color: #00F5FF;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Skeleton loader */
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.05) 25%,
+    rgba(255, 255, 255, 0.1) 50%,
+    rgba(255, 255, 255, 0.05) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(10, 14, 39, 0.5);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 245, 255, 0.3);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 245, 255, 0.5);
+}
