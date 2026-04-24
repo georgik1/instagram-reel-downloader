@@ -1,40 +1,9 @@
 'use client';
 
-import { useState } from 'react';
 import VideoCard from './VideoCard';
 
 export default function VideoResult({ data }) {
-  const { thumbnail, videos, source, videoUrl, audioUrl } = data;
-  const [merging, setMerging] = useState(false);
-
-  const hasSeparateTracks = !!(videoUrl && audioUrl);
-
-  const handleMergedDownload = async () => {
-    try {
-      setMerging(true);
-      const mergeUrl =
-        `/api/merge?videoUrl=${encodeURIComponent(videoUrl)}` +
-        `&audioUrl=${encodeURIComponent(audioUrl)}`;
-      const response = await fetch(mergeUrl);
-      if (!response.ok) {
-        const err = await response.json().catch(() => ({ error: `Server error ${response.status}` }));
-        throw new Error(err.error || `Server error ${response.status}`);
-      }
-      const blob = await response.blob();
-      const objectUrl = window.URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = objectUrl;
-      a.download = 'instagram-reel.mp4';
-      document.body.appendChild(a);
-      a.click();
-      window.URL.revokeObjectURL(objectUrl);
-      document.body.removeChild(a);
-    } catch (error) {
-      alert(`Failed to download: ${error.message}`);
-    } finally {
-      setMerging(false);
-    }
-  };
+  const { thumbnail, videos, source } = data;
 
   return (
     <div className="w-full max-w-4xl mx-auto space-y-6 animate-slide-up">
@@ -66,7 +35,7 @@ export default function VideoResult({ data }) {
                 <div>
                   <p className="text-sm font-display font-semibold text-white">Video Preview</p>
                   <p className="text-xs text-gray-300">
-                    {videos.length} track{videos.length !== 1 ? 's' : ''} available
+                    {videos.length} option{videos.length !== 1 ? 's' : ''} available
                   </p>
                 </div>
               </div>
@@ -83,47 +52,6 @@ export default function VideoResult({ data }) {
           <div className="h-px flex-1 bg-gradient-to-r from-transparent via-neon-cyan to-transparent" />
         </div>
 
-        {/* Combined download — shown first when tracks are separate */}
-        {hasSeparateTracks && (
-          <div className="glass-card p-6 neon-border">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-3">
-                <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-neon-pink/20 to-neon-purple/20 flex items-center justify-center">
-                  <svg className="w-5 h-5 text-neon-pink" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                      d="M7 4v16M17 4v16M3 8h4m10 0h4M3 16h4m10 0h4" />
-                  </svg>
-                </div>
-                <div>
-                  <h3 className="text-lg font-display font-semibold text-neon-pink">Combined (Video + Audio)</h3>
-                  <p className="text-sm text-gray-400">Merged into a single MP4</p>
-                </div>
-              </div>
-              <button
-                onClick={handleMergedDownload}
-                disabled={merging}
-                className="px-6 py-3 rounded-lg font-display font-medium bg-dark-card border border-neon-pink/30 text-neon-pink transition-all duration-300 hover:bg-neon-pink/10 hover:border-neon-pink active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed flex items-center space-x-2"
-              >
-                {merging ? (
-                  <>
-                    <div className="w-4 h-4 border-2 border-neon-pink border-t-transparent rounded-full animate-spin" />
-                    <span>Merging...</span>
-                  </>
-                ) : (
-                  <>
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                        d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                    </svg>
-                    <span>Download</span>
-                  </>
-                )}
-              </button>
-            </div>
-          </div>
-        )}
-
-        {/* Individual tracks */}
         <div className="space-y-3">
           {videos.map((video, index) => (
             <VideoCard key={index} video={video} index={index} />
@@ -134,9 +62,7 @@ export default function VideoResult({ data }) {
       <div className="glass-card p-4 text-center">
         <p className="text-sm text-gray-400">
           <span className="font-display font-semibold">Pro Tip:</span>{' '}
-          {hasSeparateTracks
-            ? 'Use the Combined button above for a single file with video and audio.'
-            : 'Download the highest quality for best results.'}
+          HD quality requires watching a short ad. All video downloads include audio.
         </p>
       </div>
     </div>
