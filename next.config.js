@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   experimental: {
-    serverComponentsExternalPackages: ['ffmpeg-static'],
+    serverComponentsExternalPackages: ['ffmpeg-static', 'playwright'],
   },
   images: {
     remotePatterns: [
