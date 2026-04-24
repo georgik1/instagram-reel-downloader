@@ -5,6 +5,7 @@ import AdGateModal from './AdGateModal';
 
 export default function VideoCard({ video, index }) {
   const [downloading, setDownloading] = useState(false);
+  const [status, setStatus] = useState('');
   const [showAdModal, setShowAdModal] = useState(false);
 
   const triggerDownload = async () => {
@@ -13,11 +14,13 @@ export default function VideoCard({ video, index }) {
 
       let response;
       if (video.audioUrl) {
+        setStatus('Merging video + audio on server\u2026 (~20-40s)');
         const mergeUrl =
           `/api/merge?videoUrl=${encodeURIComponent(video.url)}` +
           `&audioUrl=${encodeURIComponent(video.audioUrl)}`;
         response = await fetch(mergeUrl);
       } else {
+        setStatus('Downloading\u2026');
         response = await fetch(`/api/proxy?url=${encodeURIComponent(video.url)}&download=1`);
       }
 
@@ -26,6 +29,7 @@ export default function VideoCard({ video, index }) {
         throw new Error(err.error || `Server error ${response.status}`);
       }
 
+      setStatus('Saving file\u2026');
       const blob = await response.blob();
       const objectUrl = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
@@ -40,6 +44,7 @@ export default function VideoCard({ video, index }) {
       alert(`Failed to download: ${error.message}`);
     } finally {
       setDownloading(false);
+      setStatus('');
     }
   };
 
@@ -105,8 +110,8 @@ export default function VideoCard({ video, index }) {
           >
             {downloading ? (
               <>
-                <div className={`w-4 h-4 border-2 border-t-transparent rounded-full animate-spin ${isHD ? 'border-yellow-400' : 'border-neon-cyan'}`} />
-                <span>{video.audioUrl ? 'Merging...' : 'Downloading...'}</span>
+                <div className={`w-4 h-4 border-2 border-t-transparent rounded-full animate-spin flex-shrink-0 ${isHD ? 'border-yellow-400' : 'border-neon-cyan'}`} />
+                <span className="text-xs">{status}</span>
               </>
             ) : (
               <>
